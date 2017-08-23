@@ -20,6 +20,13 @@ module.exports = function () {
     before: {
       create: [
         iff(hook => hook.data.strategy === 'local', disallow('external')),
+        iff(hook => hook.data.strategy === 'local', hook => {
+          const query = { email: hook.data.email }
+          return hook.app.service('users').find({ query }).then(users => {
+            hook.params.payload = { userId: users.data[0]._id }
+            return hook
+          })
+        }),
         authentication.hooks.authenticate(config.strategies)
       ],
       remove: [

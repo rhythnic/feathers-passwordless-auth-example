@@ -64,8 +64,9 @@ resetExpires: { type: Date }
 ```
 
 ### Authentication service
-In `authentication.js`, before the existing create hook, add a hook to disallow
-local authentication from external providers.
+In `authentication.js`, before the existing create hook, add 2 hooks.
+- The first hook disallows local authentication from external providers.
+- The second hook puts the userId onto params.payload so that it gets into the jwt token.
 
 ```
 const { iff, disallow } = require('feathers-hooks-common');
@@ -75,6 +76,13 @@ const { iff, disallow } = require('feathers-hooks-common');
   before: {
     create: [
       iff(hook => hook.data.strategy === 'local', disallow('external')),
+      iff(hook => hook.data.strategy === 'local', hook => {
+        const query = { email: hook.data.email }
+        return hook.app.service('users').find({ query }).then(users => {
+          hook.params.payload = { userId: users.data[0]._id }
+          return hook
+        })
+      }),
       authentication.hooks.authenticate(config.strategies)
     ],
 ```

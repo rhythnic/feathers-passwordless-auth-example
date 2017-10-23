@@ -11,7 +11,8 @@ strategy by using local authentication and the reset-password functionality from
 ## Run the app
 - clone the repo
 - cd into the directory
-- run `npm start`
+- run `npm install`
+- run `FROM_EMAIL=your.email@domain.com npm start`
 
 The client-side isn't functioning yet.  I need to add a simple client-side router.
 Right now, the client-side code is only for showing code examples.

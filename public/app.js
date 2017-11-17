@@ -34,7 +34,6 @@ if (emailTokenIndex > -1) {
   const resetToken = window.location.pathname.slice(emailTokenIndex).split('/')[1]
   authManagement.create({ action: 'resetPwdLong', token: resetToken })
   .then(result => {
-    debugger
     return client.authenticate({
       strategy: 'jwt',
       token: result.accessToken

@@ -94,7 +94,8 @@ The email file exports html and plain text.
 `src/email-templates/sign-in.js`
 
 ### Mailer Service
-Add a service for sending emails.  This will vary according to your email provider.
+Add a service for sending emails. How you setup the mailer service will vary according to your preferred way of sending emails. This example uses nodemailer sendmail, which sends emails directly to destination host.
+
 
 ```
 feathers generate service
@@ -102,9 +103,8 @@ feathers generate service
 
 I called the service 'mailer', and set it up as custom service.  Choose "No" for authentication.
 
-The `mailer.service.js` file is setup to use `feathers-mailer` and `nodemailer-smtp-transport`
-We also introduce some environment variables for keeping track of credentials that shouldn't be
-in the code.  I like to use [dotenv](https://github.com/motdotla/dotenv) for loading environment variables.
+The `mailer.service.js` file is setup to use `feathers-mailer` and `nodemailer-sendmail-transport`.
+We also use the environment variable `FROM_EMAIL` in `src/services/notifier` to set email address the notifications are sent from.
 
 In `mailer.hooks.js`, disallow all external providers, in the `before all` hooks array.
 In this file, we're precompiling email templates and associating them with a key.  Since we'll be

@@ -1,14 +1,14 @@
 // Initializes the `mailer` service on path `/mailer`
 const hooks = require('./mailer.hooks');
 const Mailer = require('feathers-mailer');
-const smtpTransport = require('nodemailer-smtp-transport');
+const sendmailTransport = require('nodemailer-sendmail-transport');
 
 module.exports = function () {
   const app = this;
 
-  app.use('/mailer', Mailer(smtpTransport({
+  app.use('/mailer', Mailer(sendmailTransport({
     sendmail: true
-    // see https://nodemailer.com/smtp/ for options
+    // see https://nodemailer.com/transports/sendmail/ for options
   })));
 
   // Get our initialized service so that we can register hooks and filters

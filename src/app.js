@@ -1,5 +1,4 @@
 const path = require('path');
-const favicon = require('serve-favicon');
 const compress = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -24,13 +23,12 @@ const app = feathers();
 
 // Load app configuration
 app.configure(configuration());
-// Enable CORS, security, compression, favicon and body parsing
+// Enable CORS, security, compression and body parsing
 app.use(cors());
 app.use(helmet());
 app.use(compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
 app.use('/', feathers.static(app.get('public')));
 

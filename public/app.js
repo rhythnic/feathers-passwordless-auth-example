@@ -33,18 +33,18 @@ const emailTokenIndex = window.location.pathname.indexOf('email-token')
 if (emailTokenIndex > -1) {
   const resetToken = window.location.pathname.slice(emailTokenIndex).split('/')[1]
   authManagement.create({ action: 'resetPwdLong', token: resetToken })
-    .then(result => {
-      return client.authenticate({
-        strategy: 'jwt',
-        token: result.accessToken
-      })
-      .then(() => client.service('users').find({ query: { email: result.email } }))
+  .then(result => {
+    return client.authenticate({
+      strategy: 'jwt',
+      token: result.accessToken
     })
-    .then(users => {
-      console.log('user', users.data[0])
-    })
+    .then(() => client.service('users').find({ query: { email: result.email } }))
+  })
+  .then(users => {
+    console.log('user', users.data[0])
   })
 }
+
 
 
 //logout
